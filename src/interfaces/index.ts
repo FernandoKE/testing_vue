@@ -26,3 +26,8 @@ export interface Token {
   accessToken: string
   tokenType: string
 }
+
+export interface ChangePassword {
+  oldPassword: string
+  newPassword: string
+}

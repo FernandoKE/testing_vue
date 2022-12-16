@@ -10,6 +10,9 @@
     tokenStore.clearData()
     await router.push({ name: 'Login' })
   }
+  async function changePassword() {
+    await router.push({ name: 'ChangePassword' })
+  }
 
   console.log(checkRoutePermission('ListUsers'))
 </script>
@@ -28,6 +31,7 @@
       </v-toolbar-title>
       <span class="mx-3">Hola, {{ tokenStore.user?.fullname }}</span>
       <v-btn variant="tonal" @click="logout">Cerrar sesion</v-btn>
+      <v-btn variant="tonal" @click="changePassword()">Cambiar Contraseña</v-btn>
     </v-app-bar>
 
     <v-main class="bg-grey-lighten-5">

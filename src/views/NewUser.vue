@@ -19,6 +19,7 @@
 
   const form: Ref<any> = ref(null)
   const valid: Ref<boolean> = ref(false)
+  const errorMessage = ref('')
   const rules = {
     user: [(v: string) => !!v || 'El usuario es requerido'],
     fullname: [(v: string) => !!v || 'El nombre es requerido'],
@@ -38,6 +39,7 @@
         console.info('Created user', createdUser)
         router.push({ name: 'ListUsers' })
       } catch (error: any) {
+        errorMessage.value = 'El nombre de usuario ya está en uso'
         console.error(error)
       }
     }
@@ -85,6 +87,17 @@
             label="Grupos"
           >
           </v-select>
+
+          <div v-if="errorMessage">
+            <v-alert
+              type="error"
+              density="compact"
+              variant="tonal"
+              class="mb-2"
+            >
+              {{ errorMessage }}
+            </v-alert>
+          </div>
 
           <v-btn color="teal" class="mr-4" @click="submitNewUser">
             Guardar
