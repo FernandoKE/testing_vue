@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import PageHeader from '@/components/PageHeader.vue'
   import { reactive, Ref, ref } from 'vue'
-  import { getGroups, postUser } from '@/api/users'
-  import { Group, NewUser } from '@/interfaces'
+  import { getGroups, postUser, getUsers } from '@/api/users'
+  import { Group, NewUser, User } from '@/interfaces'
   import { useRouter } from 'vue-router'
 
   const router = useRouter()
@@ -15,15 +15,21 @@
     groupIds: [],
   })
   const groups: Ref<Group[]> = ref([])
+  const users: Ref<User[]> = ref([])
   const showPassword: Ref<boolean> = ref(false)
 
   const form: Ref<any> = ref(null)
   const valid: Ref<boolean> = ref(false)
   const errorMessage = ref('')
   const rules = {
-    user: [(v: string) => !!v || 'El usuario es requerido'],
+    user: [(v: string) => !!v || 'El usuario es requerido',
+           (v: string) => !users.value.find((user: User) => user.username === v) || 'El usuario ya existe'],
     fullname: [(v: string) => !!v || 'El nombre es requerido'],
     password: [(v: string) => !!v || 'La contraseña es requerida'],
+  }
+
+  async function fetchUsers() {
+    users.value = await getUsers()
   }
 
   async function fetchGroups() {
@@ -46,6 +52,7 @@
   }
 
   fetchGroups()
+  fetchUsers()
 </script>
 
 <template>
