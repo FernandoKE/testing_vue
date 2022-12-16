@@ -22,6 +22,15 @@ export interface NewUser {
   groupIds?: number[]
 }
 
+export interface EditUser {
+  username: string
+  fullname: string
+  age: number
+  imagePath: string
+  isActive: boolean
+  groups: Group[]
+}
+
 export interface Token {
   accessToken: string
   tokenType: string

@@ -1,6 +1,7 @@
+
 import snakecaseKeys from 'snakecase-keys'
 import { apiFetch } from '@/api'
-import { Group, NewUser, User, ChangePassword } from '@/interfaces'
+import { Group, NewUser, User, ChangePassword, User as EditUser} from '@/interfaces'
 
 async function getUsers(): Promise<User[]> {
   return apiFetch('/users')
@@ -14,6 +15,16 @@ async function postUser(userData: NewUser): Promise<User> {
   return apiFetch('/users/', 'POST', JSON.stringify(snakecaseKeys(userData)), {
     'Content-Type': 'application/json',
   })
+}
+
+async function userEdit(user: EditUser): Promise<User> {
+  return apiFetch(
+    `/users/${user.id}`, 
+    'PATCH', 
+    JSON.stringify(snakecaseKeys(user)), 
+    {
+      'Content-Type': 'application/json',
+    })
 }
 
 async function getGroups(): Promise<Group[]> {
@@ -30,4 +41,4 @@ async function changePasswordMe(passwordForm: ChangePassword): Promise<User> {
   })
 }
 
-export { getUsers, getUserMe, postUser, getGroups, changePasswordMe }
+export { getUsers, getUserMe, postUser, getGroups, changePasswordMe, userEdit }
